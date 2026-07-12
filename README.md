@@ -1,11 +1,11 @@
 # 王自如项目仓库
 
-这是一个围绕“王自如”主题整理的静态展示仓库，主入口在 [wangziru-hub](wangziru-hub/index.html)。
+这是一个围绕“王自如”主题整理的静态展示项目仓库，主入口位于 [wangziru-hub/index.html](wangziru-hub/index.html)。仓库内容包含主视觉页面、设计演示页、像素风素材和预览脚本，适合本地直接打开查看，也便于继续扩展成完整的展示站点。
 
-## 目录
+## 项目概览
 
 - [wangziru-hub](wangziru-hub) - 主展示页、设计演示和预览脚本
-- [像素ui](像素ui) - 角色与素材资源
+- [像素ui](像素ui) - 角色素材与像素风资源
 
 ## 主要内容
 
@@ -13,11 +13,21 @@
 - [wangziru-hub/design-demos](wangziru-hub/design-demos) - 多个设计演示页面
 - [wangziru-hub/preview](wangziru-hub/preview) - Playwright 录制与视频转换脚本
 
+## 项目截图
+
+当前仓库里已经保留了可直接用于说明的素材预览图：
+
+- [像素ui/sprite_pack_preview_3af0c39e.png](像素ui/sprite_pack_preview_3af0c39e.png) - 像素角色素材总览
+- [像素ui/01_演讲姿势男性.png](像素ui/01_演讲姿势男性.png) - 人物姿态示例
+- [像素ui/02_持笔指引男性.png](像素ui/02_持笔指引男性.png) - 人物动作示例
+
+如果你要把主页面效果也补到 README 里，可以后续把 `wangziru-hub` 的页面截图导出后，放在这里统一展示。
+
 ## 预览目录
 
 `preview` 目录里的脚本用于录制页面并转换成视频，依赖在 [wangziru-hub/preview/package.json](wangziru-hub/preview/package.json)。
 
-如果要重新安装依赖：
+重新安装依赖：
 
 ```bash
 cd wangziru-hub/preview
