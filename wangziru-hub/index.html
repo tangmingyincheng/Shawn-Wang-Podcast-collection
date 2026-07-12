@@ -1,0 +1,628 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>王自如 · ZEALER</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0A0A0A;
+  --gold: #FFD700;
+  --green: #00FF41;
+  --cyan: #00E5FF;
+  --gray: #333;
+  --text: #AAAAAA;
+  --card-bg: #111111;
+  --border: #1A1A1A;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans SC", -apple-system, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.exif-bar {
+  text-align: center;
+  padding: 24px 0 8px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 0 40px;
+  gap: 24px;
+}
+
+.hero-sprite {
+  display: block;
+  width: 200px;
+  height: 200px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 20px rgba(255,215,0,0.15));
+  transition: filter 0.4s ease;
+}
+
+.hero-sprite:hover {
+  filter: drop-shadow(0 0 40px rgba(255,215,0,0.35));
+}
+
+.hero-name {
+  font-family: "Noto Sans SC", -apple-system, sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 8px;
+  text-shadow: 0 0 30px rgba(255,215,0,0.2);
+}
+
+.hero-tags {
+  display: flex;
+  gap: 16px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+  color: #555;
+}
+
+.hero-tags span {
+  border: 1px solid #222;
+  padding: 8px 16px;
+  border-radius: 2px;
+}
+
+.hero-tags span:first-child {
+  border-color: rgba(255,215,0,0.3);
+  color: rgba(255,215,0,0.6);
+}
+
+.hero-tags span:nth-child(2) {
+  border-color: rgba(0,229,255,0.3);
+  color: rgba(0,229,255,0.6);
+}
+
+.hero-tags span:last-child {
+  border-color: rgba(0,255,65,0.3);
+  color: rgba(0,255,65,0.6);
+}
+
+.stat-bars {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  color: #555;
+  width: 72px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.stat-track {
+  flex: 1;
+  height: 6px;
+  background: #1A1A1A;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+.stat-fill.gold { background: linear-gradient(90deg, #FFD700, #FFA500); }
+.stat-fill.cyan { background: linear-gradient(90deg, #00E5FF, #0088FF); }
+.stat-fill.green { background: linear-gradient(90deg, #00FF41, #00CC33); }
+
+.stat-value {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  color: #666;
+  width: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0 28px;
+}
+
+.section-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 2px;
+}
+
+.cursor-blink {
+  width: 8px;
+  height: 14px;
+  background: var(--green);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.quotes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.quote-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 2px solid transparent;
+  padding: 20px 24px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.quote-card:hover {
+  border-left-color: rgba(0,255,65,0.4);
+  background: #141414;
+}
+
+.quote-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,65,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.quote-card:hover::after {
+  opacity: 1;
+}
+
+.quote-speaker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.quote-speaker img {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.quote-speaker-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  color: #444;
+}
+
+.quote-text {
+  font-size: 15px;
+  color: #CCCCCC;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.section-label-link {
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+}
+
+.links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 48px;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.link-item:hover {
+  color: #FFFFFF;
+  padding-left: 8px;
+}
+
+.link-item:hover .link-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.link-tag {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  color: #444;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.link-icon {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.link-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: #555;
+  transition: fill 0.3s ease;
+}
+
+.link-item:hover .link-icon {
+  border-color: rgba(0,229,255,0.3);
+}
+
+.link-item:hover .link-icon svg {
+  fill: var(--cyan);
+}
+
+.link-name {
+  font-size: 16px;
+  font-weight: 400;
+  flex: 1;
+}
+
+.link-arrow {
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: var(--cyan);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.3s ease;
+}
+
+.footer {
+  text-align: center;
+  padding: 60px 0 48px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: #222;
+  letter-spacing: 3px;
+  border-top: 1px solid #0F0F0F;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  .hero-name { font-size: 32px; letter-spacing: 4px; }
+  .hero-tags { flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .hero-tags span { font-size: 7px; padding: 6px 10px; }
+  .quotes-grid { grid-template-columns: 1fr; }
+  .link-tag { display: none; }
+  .stat-label { font-size: 7px; width: 60px; }
+  .stat-value { font-size: 7px; width: 32px; }
+}
+.scroll-transition {
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.scroll-transition::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.12), transparent);
+}
+.pixel-deco {
+  width: 250px;
+  height: 250px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  opacity: 0;
+  transform-origin: center center;
+}
+.pixel-deco.glow-green {
+  filter: drop-shadow(0 0 40px rgba(0,255,65,.35)) drop-shadow(0 0 80px rgba(0,255,65,.12));
+}
+.pixel-deco.glow-cyan {
+  filter: drop-shadow(0 0 40px rgba(0,229,255,.35)) drop-shadow(0 0 80px rgba(0,229,255,.12));
+}
+</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <div class="exif-bar">ZEALER · 2010 · — · INDEPENDENT</div>
+
+  <section class="hero">
+    <img class="hero-sprite" src="assets/speech.png" alt="王自如 Pixel Art">
+    <div class="hero-name">王自如</div>
+    <div class="hero-tags">
+      <span>科技评论</span>
+      <span>ZEALER</span>
+      <span>产品经理</span>
+    </div>
+    <div class="stat-bars">
+      <div class="stat-row">
+        <span class="stat-label">测评力</span>
+        <div class="stat-track"><div class="stat-fill gold" style="width:95%"></div></div>
+        <span class="stat-value">95</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">科技感</span>
+        <div class="stat-track"><div class="stat-fill cyan" style="width:88%"></div></div>
+        <span class="stat-value">88</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">真实度</span>
+        <div class="stat-track"><div class="stat-fill green" style="width:92%"></div></div>
+        <span class="stat-value">92</span>
+      </div>
+    </div>
+  </section>
+
+<div class="scroll-transition transition-1">
+  <img class="pixel-deco glow-green" src="assets/speech.png" alt="">
+</div>
+
+  <div class="section-header">
+    <span class="section-label">DIALOG LOG</span>
+    <div class="cursor-blink"></div>
+  </div>
+
+  <div class="quotes-grid">
+    <div class="quote-card">
+      <div class="quote-speaker">
+        <img src="assets/guide.png" alt="Speaker">
+        <span class="quote-speaker-label">王自如</span>
+      </div>
+      <div class="quote-text">"独立、客观、第三方" — Zealer 立身之本</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-speaker">
+        <img src="assets/guide.png" alt="Speaker">
+        <span class="quote-speaker-label">王自如</span>
+      </div>
+      <div class="quote-text">"科技不是冰冷的参数，是对生活的理解"</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-speaker">
+        <img src="assets/guide.png" alt="Speaker">
+        <span class="quote-speaker-label">王自如</span>
+      </div>
+      <div class="quote-text">"做评测，最重要的是真实"</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-speaker">
+        <img src="assets/guide.png" alt="Speaker">
+        <span class="quote-speaker-label">王自如</span>
+      </div>
+      <div class="quote-text">"年轻人不要怕犯错，怕的是不敢认错"</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-speaker">
+        <img src="assets/guide.png" alt="Speaker">
+        <span class="quote-speaker-label">王自如</span>
+      </div>
+      <div class="quote-text">"产品经理的尊严，是用产品挣来的"</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-speaker">
+        <img src="assets/guide.png" alt="Speaker">
+        <span class="quote-speaker-label">王自如</span>
+      </div>
+      <div class="quote-text">"我不在乎输赢，我在乎事情有没有说清楚"</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-speaker">
+        <img src="assets/guide.png" alt="Speaker">
+        <span class="quote-speaker-label">王自如</span>
+      </div>
+      <div class="quote-text">"每个人都在自己的赛道上，没必要攀比"</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-speaker">
+        <img src="assets/guide.png" alt="Speaker">
+        <span class="quote-speaker-label">王自如</span>
+      </div>
+      <div class="quote-text">"好的产品，是让用户感受不到设计的存在"</div>
+    </div>
+  </div>
+
+<div class="scroll-transition transition-2">
+  <img class="pixel-deco glow-cyan" src="assets/guide.png" alt="">
+</div>
+
+  <div class="section-header">
+    <span class="section-label-link">QUEST MENU</span>
+  </div>
+
+  <div class="links-list">
+    <a class="link-item" href="https://weibo.com/u/1734741902?tabtype=newVideo" target="_blank" rel="noopener">
+      <span class="link-tag">微博视频</span>
+      <span class="link-icon"><svg viewBox="0 0 24 24"><path d="M10.098 20.323c-3.977.391-7.414-1.406-7.672-4.02-.259-2.609 2.759-5.047 6.74-5.441 3.979-.394 7.413 1.404 7.671 4.018.259 2.6-2.759 5.049-6.739 5.443zM7.1 18.024c-1.584.315-2.826-.505-2.775-1.826.051-1.325 1.449-2.55 3.034-2.866 1.585-.316 2.827.504 2.775 1.827-.05 1.324-1.449 2.549-3.034 2.865zm4.233-1.373c-.034.092-.11.134-.17.108-.098-.036-.102-.146-.076-.248.347-1.288.143-2.442-.595-3.207-.253-.266-.22-.402.1-.436.773-.072 1.466.454 1.722 1.194.315.838.114 1.672-.242 2.428-.123.26-.46.278-.739.16zm4.485-.946c-.08.125-.22.182-.317.127-.117-.073-.123-.26-.023-.442.477-.884.618-1.756.425-2.348-.089-.283.03-.475.272-.43.655.12 1.023.744 1.065 1.51.051.94-.388 1.929-1.422 2.706-.233.18-.466.268-.622.179l-.206-.14.828-.832v-.33z"/></svg></span>
+      <span class="link-name">微博视频</span>
+      <span class="link-arrow">&gt;</span>
+    </a>
+    <a class="link-item" href="https://www.youtube.com/@Mr.%E4%B8%8D%E4%BA%8C/videos" target="_blank" rel="noopener">
+      <span class="link-tag">YouTube</span>
+      <span class="link-icon"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>
+      <span class="link-name">YouTube 频道</span>
+      <span class="link-arrow">&gt;</span>
+    </a>
+    <a class="link-item" href="https://www.youtube.com/playlist?list=PLC-31OPW2fCFSNJMwa7OErgWw1lXJz8FC" target="_blank" rel="noopener">
+      <span class="link-tag">YouTube</span>
+      <span class="link-icon"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>
+      <span class="link-name">YouTube 播客</span>
+      <span class="link-arrow">&gt;</span>
+    </a>
+    <a class="link-item" href="https://www.douyin.com/user/MS4wLjABAAAA7XPsb0eA55zCAAu99aGv7QB8v_-rb1U_iodynfmfByw" target="_blank" rel="noopener">
+      <span class="link-tag">抖音</span>
+      <span class="link-icon"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span>
+      <span class="link-name">@王自如</span>
+      <span class="link-arrow">&gt;</span>
+    </a>
+    <a class="link-item" href="https://www.douyin.com/user/MS4wLjABAAAASXSGMWQh18huP899aJt1oAeF8S7VhBugxfYUO3XTp-E" target="_blank" rel="noopener">
+      <span class="link-tag">抖音</span>
+      <span class="link-icon"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span>
+      <span class="link-name">@ZEALER 官方</span>
+      <span class="link-arrow">&gt;</span>
+    </a>
+    <a class="link-item" href="https://space.bilibili.com/523945494" target="_blank" rel="noopener">
+      <span class="link-tag">B站</span>
+      <span class="link-icon"><svg viewBox="0 0 24 24"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg></span>
+      <span class="link-name">B站</span>
+      <span class="link-arrow">&gt;</span>
+    </a>
+    <a class="link-item" href="https://weixin.qq.com/sph/Autd64UaqC" target="_blank" rel="noopener">
+      <span class="link-tag">视频号</span>
+      <span class="link-icon"><svg viewBox="0 0 24 24"><path d="M8.691 2.188A9.812 9.812 0 0 0 2.188 8.691a9.812 9.812 0 0 0 6.503 9.124l-.046.114-.188.454c-.098.238-.198.477-.296.717l-.062.152c-.127.313-.254.63-.366.936-.02.047-.037.095-.055.143-.046.125-.091.25-.126.36a1.03 1.03 0 0 0-.07.235c-.02.098-.028.196-.024.295.004.098.016.196.036.295.02.098.05.195.09.291.113.278.368.482.682.544.129.026.258.027.386.004.128-.024.252-.07.362-.135.15-.091.28-.203.382-.33a8.297 8.297 0 0 0 .592-.874c.12-.207.228-.42.323-.638.098-.219.183-.444.254-.673a9.812 9.812 0 0 0 11.662-3.346 9.812 9.812 0 0 0-1.777-13.726 9.812 9.812 0 0 0-13.726 1.777zm1.45 1.157a7.82 7.82 0 0 1 10.947-1.417 7.82 7.82 0 0 1 1.417 10.947 7.82 7.82 0 0 1-9.299 2.668l-.183-.057-.18.067a7.82 7.82 0 0 1-2.987.476v-3.29c.011-.106.024-.21.038-.316l.004-.027c.014-.103.03-.206.048-.31l.033-.173c.028-.149.06-.296.095-.444l.036-.15c.03-.119.06-.24.094-.36l.05-.167.002-.009a4.004 4.004 0 0 0-.1-.008l-.007-.001h-.014a4.105 4.105 0 0 0-.14-.003c-.916 0-1.813.316-2.506.94a3.966 3.966 0 0 0-1.208 2.348 3.966 3.966 0 0 0 1.018 2.942 3.966 3.966 0 0 0 2.835 1.306V14.6c-.017.006-.035.011-.052.018l-.082.028-.09.03c-.076.026-.15.055-.224.085l-.001.001a5.85 5.85 0 0 0-.998.51l-.007.004-.007.004a7.82 7.82 0 0 1-2.668-3.26 5.85 5.85 0 0 0-1.227-2.469 5.85 5.85 0 0 0-2.468-1.227z"/></svg></span>
+      <span class="link-name">视频号</span>
+      <span class="link-arrow">&gt;</span>
+    </a>
+  </div>
+
+  <div class="footer">ZEALER · SINCE 2010</div>
+</div>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero section divider glow
+gsap.fromTo(".section-header",
+  { y: 15, opacity: 0 },
+  {
+    y: 0, opacity: 1, duration: 0.5,
+    scrollTrigger: {
+      trigger: ".quotes-grid",
+      start: "top 90%",
+      toggleActions: "play none none none"
+    }
+  }
+);
+
+// Quote cards stagger in
+gsap.fromTo(".quotes-grid .quote-card",
+  { x: -30, opacity: 0 },
+  {
+    x: 0, opacity: 1, duration: 0.6, stagger: 0.1,
+    scrollTrigger: {
+      trigger: ".quotes-grid",
+      start: "top 80%",
+      toggleActions: "play none none none"
+    }
+  }
+);
+
+// Quest links stagger in
+gsap.fromTo(".link-item",
+  { y: 20, opacity: 0 },
+  {
+    y: 0, opacity: 1, duration: 0.4, stagger: 0.08,
+    scrollTrigger: {
+      trigger: ".links-list",
+      start: "top 85%",
+      toggleActions: "play none none none"
+    }
+  }
+);
+
+// LARGE DECORATIVE TRANSITION 1: Speech pose pixel art
+ScrollTrigger.create({
+  trigger: ".transition-1",
+  start: "top 85%",
+  end: "bottom 15%",
+  scrub: 1,
+  onUpdate: (self) => {
+    const el = document.querySelector(".transition-1 .pixel-deco");
+    if (!el) return;
+    const p = self.progress;
+    const opacity = p < 0.2 ? p / 0.2 : p > 0.8 ? (1 - p) / 0.2 : 1;
+    const scale = 0.3 + Math.min(p, 0.5) * 1.4;
+    const rotate = p * 20;
+    gsap.set(el, { opacity, scale, rotate });
+  }
+});
+
+// LARGE DECORATIVE TRANSITION 2: Guide pose pixel art
+ScrollTrigger.create({
+  trigger: ".transition-2",
+  start: "top 85%",
+  end: "bottom 15%",
+  scrub: 1,
+  onUpdate: (self) => {
+    const el = document.querySelector(".transition-2 .pixel-deco");
+    if (!el) return;
+    const p = self.progress;
+    const opacity = p < 0.2 ? p / 0.2 : p > 0.8 ? (1 - p) / 0.2 : 1;
+    const scale = 0.3 + Math.min(p, 0.5) * 1.4;
+    const rotate = -p * 15;
+    gsap.set(el, { opacity, scale, rotate });
+  }
+});
+</script>
+</body>
+</html>

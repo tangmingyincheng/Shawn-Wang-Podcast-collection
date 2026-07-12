@@ -1,0 +1,20 @@
+{
+  "jobId": "3af0c39e-0d68-43fb-b77a-4ce810612fd1",
+  "imageCount": 3,
+  "failureCount": 0,
+  "images": [
+    {
+      "index": "01",
+      "fileName": "01_演讲姿势男性.png",
+      "name": "演讲姿势男性",
+      "jobId": "3af0c39e-0d68-43fb-b77a-4ce810612fd1"
+    },
+    {
+      "index": "02",
+      "fileName": "02_持笔指引男性.png",
+      "name": "持笔指引男性",
+      "jobId": "3af0c39e-0d68-43fb-b77a-4ce810612fd1"
+    }
+  ],
+  "failures": []
+}
