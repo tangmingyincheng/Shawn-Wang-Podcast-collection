@@ -15,13 +15,15 @@
 
 ## 项目截图
 
-当前仓库里已经保留了可直接用于说明的素材预览图：
+主页面实际截图：
+
+![王自如主页面截图](wangziru-hub/assets/homepage-screenshot.png)
+
+仓库里还保留了可直接用于说明的素材预览图：
 
 - [像素ui/sprite_pack_preview_3af0c39e.png](像素ui/sprite_pack_preview_3af0c39e.png) - 像素角色素材总览
 - [像素ui/01_演讲姿势男性.png](像素ui/01_演讲姿势男性.png) - 人物姿态示例
 - [像素ui/02_持笔指引男性.png](像素ui/02_持笔指引男性.png) - 人物动作示例
-
-如果你要把主页面效果也补到 README 里，可以后续把 `wangziru-hub` 的页面截图导出后，放在这里统一展示。
 
 ## 预览目录
 
